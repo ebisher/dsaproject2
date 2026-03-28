@@ -1,1 +1,65 @@
-//file to implement the 2 sorting algorithms to use on the data
+// file to implement the 2 sorting algorithms to use on the data
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+
+// ─────────────────────────────────────────────
+//  Bubble Sort  —  sorted by GPA
+//  Time: O(n^2)  |  Simple baseline algorithm
+// ─────────────────────────────────────────────
+void bubbleSortByGPA(std::vector<Student>& students) {
+    int n = static_cast<int>(students.size());
+
+    for (int i = 0; i < n - 1; ++i) {
+        bool swapped = false;
+
+        for (int j = 0; j < n - i - 1; ++j) {
+            if (students[j].gpa > students[j + 1].gpa) {
+                std::swap(students[j], students[j + 1]);
+                swapped = true;
+            }
+        }
+
+        // stop early if already sorted
+        if (!swapped) break;
+    }
+}
+
+// ─────────────────────────────────────────────
+//  Insertion Sort  —  sorted by ID
+//  Time: O(n^2)  |  Efficient for small datasets
+// ─────────────────────────────────────────────
+void insertionSortByID(std::vector<Student>& students) {
+    int n = static_cast<int>(students.size());
+
+    for (int i = 1; i < n; ++i) {
+        Student key = students[i];
+        int j = i - 1;
+
+        while (j >= 0 && students[j].id > key.id) {
+            students[j + 1] = students[j];
+            --j;
+        }
+
+        students[j + 1] = key;
+    }
+}
+
+// ─────────────────────────────────────────────
+//  Helper Functions (for testing/debugging)
+// ─────────────────────────────────────────────
+void printByGPA(const std::vector<Student>& students) {
+    std::cout << "\nStudents sorted by GPA:\n";
+    for (const auto& s : students) {
+        std::cout << "  " << s.name << " | GPA: " << s.gpa << "\n";
+    }
+}
+
+void printByID(const std::vector<Student>& students) {
+    std::cout << "\nStudents sorted by ID:\n";
+    for (const auto& s : students) {
+        std::cout << "  " << s.name << " | ID: " << s.id << "\n";
+    }
+}
